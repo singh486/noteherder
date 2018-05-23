@@ -10,11 +10,7 @@ class Main extends React.Component{
        super()
        
        this.state={
-            currentNote: {
-                id:null,
-                title:"",
-                content:"",
-            },
+            currentNote: this.blankNote(),
             notes: [
                 {id: 1, title: "Kohlrabi welsh", content:"Veggies es bonus vobis, proinde vos postulo essum magis kohlrabi welsh onion daikon amaranth tatsoi tomatillo melon azuki bean garlic."},
                 {id: 2, title: "Dandelion cucumber", content:"Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini."},
@@ -23,9 +19,20 @@ class Main extends React.Component{
             ]
        }
     }
-
+    
+    blankNote = ()=>{
+        return{
+            id:null,
+            title:"",
+            content:"",
+        }
+    }
     setCurrentNote= (note)=>{
         this.setState({currentNote: note})
+    }
+
+    resetCurrentNote = ()=>{
+        this.setCurrentNote(this.blankNote())
     }
 
     render(){
@@ -34,7 +41,7 @@ class Main extends React.Component{
                 className = "Main"
                 style={style}
             >
-                <Sidebar />
+                <Sidebar resetCurrentNote = {this.resetCurrentNote}/>
                 <NoteList 
                     notes = {this.state.notes}
                     setCurrentNote = {this.setCurrentNote}
