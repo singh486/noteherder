@@ -7,13 +7,17 @@ import Note from './Note'
 //const NoteList = () => 
 const NoteList = (props) =>{
     const notes = props.notes
-    
+
         return (
             <div className="NoteList">
               <h3>Notes</h3>
               <ul id="notes">
                 {notes.map(note =>
-                    <Note key = {note.id} note={note}/>
+                    <Note 
+                        key = {note.id} 
+                        note={note} 
+                        setCurrentNote={props.setCurrentNote
+                    }/>
                 )}
               </ul>
             </div>
