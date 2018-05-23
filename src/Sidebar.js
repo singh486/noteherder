@@ -6,78 +6,72 @@ import newIcon from './new.png'
 import newHover from './new-hover.png'
 
 
-
-const Sidebar = () => {
-
-    // this.state = {
-    //     hover: false
-    // }
-    //this.state.hover = false
-    var hover
-    var style
-
-   function renderStyle(){
-        if(hover){
-            return styles.imgOutline
-        }else{
-            console.log("render")
-            return styles.img
-        }
+class Sidebar extends React.Component{
+    state = {
+        newIconHovered: false,
     }
-    return(
-        <nav 
-            className="Sidebar"
-            style = {styles.sidebar}
-        >
-          <div 
-            className="logo"
-            style={styles.logo}
-          >
-            <img 
-                src={quill} 
-                alt="Noteherder"
-                style={styles.logoImg}
-            />
-          </div>
-            <a 
-            className="new-note" 
-            href="/notes"
-            style={styles.newNote}
-            >
-            <img 
-                src={newHover} 
-                alt="New note"
-                style={styles.img}
-            />
-            <img 
-                className="outline" 
-                src={newIcon} 
-                alt="New note"
-                onMouseEnter={()=>{
-                    hover = true
-                    style = styles.img
-                    console.log(hover)
-                }}
-                onMouseLeave={()=>{
-                    hover = false
-                    style = styles.imgOutline
-                    console.log(hover)
-                }}
-                //hover ? styles.imgOutline : styles.img}
-                style={renderStyle()}
 
-            />
-          </a>
-          <div 
-            className="SignOut"
-            style={styles.signOut}
-          >
-            <button style={styles.signOutButton}>
-              <i style={styles.signOutIfa} className="fa fa-sign-out"></i>
-            </button>
-          </div>
-        </nav>
-    )}
+    handleMouseEnter(){
+        this.setState({newIconHovered: true})
+    }
+
+    handleMouseLeave(){
+        this.setState({newIconHovered: false})
+    }
+
+    render(){
+        return(
+            <nav 
+                className="Sidebar"
+                style = {styles.sidebar}
+            >
+              <div 
+                className="logo"
+                style={styles.logo}
+              >
+                <img 
+                    src={quill} 
+                    alt="Noteherder"
+                    style={styles.logoImg}
+                />
+              </div>
+                <a 
+                className="new-note" 
+                href="/notes"
+                style={styles.newNote}
+
+                onMouseEnter={()=> this.handleMouseEnter()}
+                onMouseLeave={()=> this.handleMouseLeave()}
+                >
+                <img 
+                    src={newHover} 
+                    alt="New note"
+                    style={styles.img}
+                />
+                <img 
+                    className="outline" 
+                    src={newIcon} 
+                    alt="New note"
+                    style={{
+                        ...styles.img,
+                        opacity: this.state.newIconHovered ? 0 : 1
+                    }}
+                />
+              </a>
+              <div 
+                className="SignOut"
+                style={styles.signOut}
+              >
+                <button style={styles.signOutButton}>
+                  <i style={styles.signOutIfa} className="fa fa-sign-out"></i>
+                </button>
+              </div>
+            </nav>
+        )
+
+    }
+
+}
 
 
 const styles = {
