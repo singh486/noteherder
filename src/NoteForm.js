@@ -2,13 +2,7 @@ import React from 'react'
 import './NoteForm.css'
 
 
-export const NoteForm = (title) => {
-//export class NoteForm extends React.Component{
-    console.log(title)
-    if(Object.keys(title).length == 0){
-        console.log("empty")
-        title = ""
-    }
+const NoteForm = (props) => {
         return (
             <div className="NoteForm">
               <div className="form-actions">
@@ -22,19 +16,17 @@ export const NoteForm = (title) => {
                     type="text"
                     name="title"
                     placeholder="Title your note"
+                    value = {props.currentNote.title}
                   />
                 </p>
 
-                <textarea name="body"></textarea>
+                <textarea 
+                    name="body"
+                    value = {props.currentNote.content}
+                ></textarea>
               </form>
             </div>
         )
-
-    
-    //render(){
-        //const title = {name: "lol", content: "lol"}
-
-    //}
 }
 
 export default NoteForm

@@ -1,6 +1,4 @@
 import React from 'react'
-
-import {NoteForm} from './NoteForm'
 import './NoteList.css'
 import Note from './Note'
 
