@@ -4,7 +4,7 @@ import Note from './Note'
 
 //const NoteList = () => 
 const NoteList = (props) =>{
-    const notes = props.notes
+    const {notes} = props
 
         return (
             <div className="NoteList">
