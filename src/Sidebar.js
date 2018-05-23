@@ -53,7 +53,7 @@ const Sidebar = () => {
                 className="outline" 
                 src={newIcon} 
                 alt="New note"
-                onMouseOver={()=>{
+                onMouseEnter={()=>{
                     hover = true
                     style = styles.img
                     console.log(hover)

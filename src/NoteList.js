@@ -1,4 +1,6 @@
 import React from 'react'
+
+import {NoteForm} from './NoteForm'
 import './NoteList.css'
 
 //const NoteList = () => 
@@ -14,9 +16,13 @@ class NoteList extends React.Component{
         }
     }
 
+    onClick=(ev)=>{
+        console.log(ev.target.id)
+        NoteForm(ev.target.id)
+    }
     
     render(){
-        console.log(this.state.notes)
+        console.log(this.state.notes[0].title)
         return (
             <div className="NoteList">
               <h3>Notes</h3>
@@ -65,14 +71,17 @@ class NoteList extends React.Component{
                 </a> */}
 
                 {this.state.notes.map(note =>
-                <a key={note.title}>
-                  <li>
-                    <div className="note">
-                      <div className="note-title">
+                <a key={note.title}
+                    className = "a"
+                    onClick = {this.onClick.bind(this)}
+                >
+                  <li className= "li" id={note.title}>
+                    <div className="note" id={note.title}>
+                      <div className="note-title" id={note.title}>
                         {note.title}
                       </div>
-                      <div className="note-body">
-                        <p>
+                      <div className="note-body" id={note.title}>
+                        <p className="p" id={note.title}>
                             {note.content}
                         </p>
                       </div>
