@@ -19,7 +19,7 @@ class Main extends Component {
     this.setState({notes: noteCopy || []})
   }
 
-  componentWillUpdate(){
+  componentDidUpdate(){
     localStorage.setItem('notes', JSON.stringify(this.state.notes))
   }
 
