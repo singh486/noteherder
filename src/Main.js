@@ -14,25 +14,21 @@ class Main extends Component {
     }
   }
 
+  componentWillMount(){
+    const noteCopy = JSON.parse(localStorage.getItem('notes'))
+    this.setState({notes: noteCopy || []})
+  }
+
+  componentWillUpdate(){
+    localStorage.setItem('notes', JSON.stringify(this.state.notes))
+  }
+
   blankNote = () => {
     return {
       id: null,
       title: '',
       body: '',
     }
-  }
-
-  componentWillMount(){
-    localStorage.getItem('notes') 
-    const noteCopy = JSON.parse(localStorage.getItem('notes'))
-    //if(noteCopy){
-      this.setState({notes: noteCopy || []})
-    //}
-
-  }
-
-  componentWillUpdate(){
-    localStorage.setItem('notes', JSON.stringify(this.state.notes))
   }
 
   setCurrentNote = (note) => {
