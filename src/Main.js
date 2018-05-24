@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+//import firebase from 'firebase/app'
 
 import Sidebar from './Sidebar'
 import NoteList from './NoteList'
@@ -22,8 +23,9 @@ class Main extends Component {
   }
 
   componentWillMount(){
-    localStorage.getItem('notes') &&
-    this.setState({notes: JSON.parse(localStorage.getItem('notes'))})
+    localStorage.getItem('notes') 
+    const notes = JSON.parse(localStorage.getItem('notes'))
+    this.setState({notes: notes || []})
   }
 
   componentWillUpdate(){
@@ -47,12 +49,20 @@ class Main extends Component {
       notes[i] = note
     } else {
       // new note
+      //this.writeUserData(note)
       note.id = Date.now()
       notes.push(note)
     }
 
     this.setState({ notes, currentNote: note })
   }
+
+  // writeUserData = (note) =>{
+  //   firebase.database().ref('note/' + note.id).set({
+  //     title: note.title,
+  //     body: note.body,
+  //   });
+  // }
 
   render() {
     return (

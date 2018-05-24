@@ -10,9 +10,13 @@ const NoteForm = ({ notes, currentNote, saveNote, resetCurrentNote }) => {
   }
 
   const deleteNote = (ev) =>{
-    notes.splice(notes.indexOf(currentNote),1)
+    const index = notes.indexOf(currentNote)
+    if(index > -1){
+      notes.splice(index,1)
+    }
     resetCurrentNote()
   }
+
   return (
     <div className="NoteForm">
       <div className="form-actions">
