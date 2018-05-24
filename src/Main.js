@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-//import firebase from 'firebase/app'
 
+import base from './base'
 import Sidebar from './Sidebar'
 import NoteList from './NoteList'
 import NoteForm from './NoteForm'
@@ -14,13 +14,12 @@ class Main extends Component {
     }
   }
 
-  componentWillMount(){
-    const noteCopy = JSON.parse(localStorage.getItem('notes'))
-    this.setState({notes: noteCopy || []})
-  }
-
-  componentDidUpdate(){
-    localStorage.setItem('notes', JSON.stringify(this.state.notes))
+  componentWillMount() {
+    base.syncState('notes', {
+      context: this,
+      state: 'notes',
+      asArray: true,
+    })
   }
 
   blankNote = () => {
@@ -48,7 +47,6 @@ class Main extends Component {
       notes[i] = note
     } else {
       // new note
-      //this.writeUserData(note)
       note.id = Date.now()
       notes.push(note)
     }
@@ -56,12 +54,17 @@ class Main extends Component {
     this.setState({ notes, currentNote: note })
   }
 
-  // writeUserData = (note) =>{
-  //   firebase.database().ref('note/' + note.id).set({
-  //     title: note.title,
-  //     body: note.body,
-  //   });
-  // }
+  removeCurrentNote = () => {
+    const notes = [...this.state.notes]
+    const i = notes.findIndex(note => note.id === this.state.currentNote.id)
+
+    if (i > -1) {
+      notes.splice(i, 1)
+      this.setState({ notes })
+    }
+
+    this.resetCurrentNote()
+  }
 
   render() {
     return (
@@ -69,16 +72,18 @@ class Main extends Component {
         className="Main"
         style={style}
       >
-        <Sidebar resetCurrentNote={this.resetCurrentNote} />
+        <Sidebar
+          resetCurrentNote={this.resetCurrentNote}
+          signOut={this.props.signOut}
+        />
         <NoteList
           notes={this.state.notes}
           setCurrentNote={this.setCurrentNote}
         />
         <NoteForm
-          notes={this.state.notes}
           currentNote={this.state.currentNote}
           saveNote={this.saveNote}
-          resetCurrentNote={this.resetCurrentNote}
+          removeCurrentNote={this.removeCurrentNote}
         />
       </div>
     )
