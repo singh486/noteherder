@@ -24,8 +24,11 @@ class Main extends Component {
 
   componentWillMount(){
     localStorage.getItem('notes') 
-    const notes = JSON.parse(localStorage.getItem('notes'))
-    this.setState({notes: notes || []})
+    const noteCopy = JSON.parse(localStorage.getItem('notes'))
+    if(noteCopy){
+      this.setState({notes: noteCopy || []})
+    }
+
   }
 
   componentWillUpdate(){
