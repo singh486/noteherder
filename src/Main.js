@@ -21,6 +21,15 @@ class Main extends Component {
     }
   }
 
+  componentWillMount(){
+    localStorage.getItem('notes') &&
+    this.setState({notes: JSON.parse(localStorage.getItem('notes'))})
+  }
+
+  componentWillUpdate(){
+    localStorage.setItem('notes', JSON.stringify(this.state.notes))
+  }
+
   setCurrentNote = (note) => {
     this.setState({ currentNote: note })
   }
