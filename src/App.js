@@ -11,15 +11,24 @@ class App extends Component {
   }
 
   componentWillMount() {
+    const savedUser = localStorage.getItem('user')
+    if(savedUser){
+      this.setState({uid: savedUser})
+    }
     auth.onAuthStateChanged(
       (user) => {
         if (user) {
+          console.log(user)
           this.handleAuth()
         } else {
           this.handleUnauth()
         }
       }
     )
+  }
+
+  componentWillUpdate(){
+    localStorage.setItem('user', JSON.stringify(this.state.uid))
   }
 
   handleAuth = () => {
