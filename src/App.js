@@ -5,7 +5,7 @@ import { auth } from './base'
 import Main from './Main'
 import SignIn from './SignIn'
 
-class App extends Component {
+export class App extends Component {
   state = {
     uid: null,
   }
@@ -18,7 +18,8 @@ class App extends Component {
     auth.onAuthStateChanged(
       (user) => {
         if (user) {
-          console.log(user)
+          this.setState({uid: user.displayName})
+          console.log(this.state.uid)
           this.handleAuth()
         } else {
           this.handleUnauth()
@@ -52,7 +53,7 @@ class App extends Component {
       <div className="App">
         {
           this.signedIn()
-            ? <Main signOut={this.signOut} />
+            ? <Main signOut={this.signOut} uid = {this.state.uid} />
             : <SignIn />
         }
 

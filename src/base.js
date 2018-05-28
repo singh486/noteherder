@@ -15,6 +15,7 @@ import Rebase from 're-base'
   };
   const app = firebase.initializeApp(config);
 
+
   export const githubProvider = new firebase.auth.GithubAuthProvider()
   export const auth = firebase.auth()
 
