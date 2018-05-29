@@ -18,9 +18,9 @@ export class App extends Component {
     auth.onAuthStateChanged(
       (user) => {
         if (user) {
-          this.setState({uid: user.displayName})
-          console.log(this.state.uid)
-          this.handleAuth()
+          //this.setState({uid: user.displayName}) //or getTokenId
+          //console.log(this.state.uid)
+          this.handleAuth(user)
         } else {
           this.handleUnauth()
         }
@@ -32,8 +32,8 @@ export class App extends Component {
     localStorage.setItem('user', JSON.stringify(this.state.uid))
   }
 
-  handleAuth = () => {
-    this.setState({ uid: 'dstrus' })
+  handleAuth = (user) => {
+    this.setState({ uid: user.uid })
   }
 
   handleUnauth = () => {
