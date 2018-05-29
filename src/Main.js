@@ -16,7 +16,7 @@ class Main extends Component {
 
   componentWillMount() {
     console.log(this.props.uid)
-    base.syncState(this.props.uid, {
+    base.syncState(`notes/${this.props.uid}`, {
       context: this,
       state: 'notes',
       asArray: true,
