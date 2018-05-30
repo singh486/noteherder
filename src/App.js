@@ -1,26 +1,24 @@
 import React, { Component } from 'react'
-import {Switch, Route, Redirect} from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
 import './App.css'
 import { auth } from './base'
 import Main from './Main'
 import SignIn from './SignIn'
 
-export class App extends Component {
+class App extends Component {
   state = {
     uid: null,
   }
 
   componentWillMount() {
-    const savedUser = localStorage.getItem('user')
-    if(savedUser){
-      this.setState({uid: savedUser})
+    const uid = localStorage.getItem('uid')
+    if (uid) {
+      this.setState({ uid })
     }
     auth.onAuthStateChanged(
       (user) => {
         if (user) {
-          //this.setState({uid: user.displayName}) //or getTokenId
-          //console.log(this.state.uid)
           this.handleAuth(user)
         } else {
           this.handleUnauth()
@@ -29,16 +27,14 @@ export class App extends Component {
     )
   }
 
-  componentWillUpdate(){
-    localStorage.setItem('user', JSON.stringify(this.state.uid))
-  }
-
   handleAuth = (user) => {
     this.setState({ uid: user.uid })
+    localStorage.setItem('uid', user.uid)
   }
 
   handleUnauth = () => {
     this.setState({ uid: null })
+    localStorage.removeItem('uid')
   }
 
   signOut = () => {
@@ -55,25 +51,31 @@ export class App extends Component {
         <Switch>
           <Route
             path="/sign-in"
-            render={() => (
+            render={navProps => (
               this.signedIn()
                 ? <Redirect to="/notes" />
-                : <SignIn />
+                : <SignIn {...navProps} />
             )}
           />
           <Route
             path="/notes"
-            render={() => (
+            render={navProps => (
               this.signedIn()
-                ? <Main signOut={this.signOut} uid={this.state.uid} />
+                ? <Main
+                    signOut={this.signOut}
+                    uid={this.state.uid}
+                    {...navProps}
+                  />
                 : <Redirect to="/sign-in" />
             )}
           />
-          <Route render={()=>(
+          <Route
+            render={() => (
               this.signedIn()
-              ? <Redirect to="/notes"/>
-              : <Redirect to="/sign-in"/>
-          )}/>
+                ? <Redirect to="/notes" />
+                : <Redirect to="/sign-in" />
+            )}
+          />
         </Switch>
         {/*
           this.signedIn()

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Switch, Route } from 'react-router-dom'
 
 import base from './base'
 import Sidebar from './Sidebar'
@@ -6,8 +7,8 @@ import NoteList from './NoteList'
 import NoteForm from './NoteForm'
 
 class Main extends Component {
-  constructor(props) {
-    super(props)
+  constructor() {
+    super()
     this.state = {
       currentNote: this.blankNote(),
       notes: [],
@@ -15,7 +16,6 @@ class Main extends Component {
   }
 
   componentWillMount() {
-    console.log(this.props.uid)
     base.syncState(`notes/${this.props.uid}`, {
       context: this,
       state: 'notes',
@@ -40,6 +40,7 @@ class Main extends Component {
   }
 
   saveNote = (note) => {
+    let shouldRedirect = false
     const notes = [...this.state.notes]
 
     if (note.id) {
@@ -50,9 +51,18 @@ class Main extends Component {
       // new note
       note.id = Date.now()
       notes.push(note)
+      shouldRedirect = true
     }
 
-    this.setState({ notes, currentNote: note })
+    this.setState(
+      { notes },
+      ()=> {
+        if(shouldRedirect){
+          this.props.history.push(`/notes/${note.id}`)
+        }
+      }
+    )
+
   }
 
   removeCurrentNote = () => {
@@ -68,24 +78,42 @@ class Main extends Component {
   }
 
   render() {
+    const formProps = {
+      saveNote: this.saveNote,
+      removeCurrentNote: this.removeCurrentNote,
+      notes: this.state.notes,
+    }
+
     return (
       <div
         className="Main"
         style={style}
       >
         <Sidebar
-          resetCurrentNote={this.resetCurrentNote}
           signOut={this.props.signOut}
         />
-        <NoteList
-          notes={this.state.notes}
-          setCurrentNote={this.setCurrentNote}
-        />
-        <NoteForm
-          currentNote={this.state.currentNote}
-          saveNote={this.saveNote}
-          removeCurrentNote={this.removeCurrentNote}
-        />
+        <NoteList notes={this.state.notes} />
+        <Switch>
+          <Route
+            path="/notes/:id"
+            render={navProps => (
+              <NoteForm
+                {...formProps}
+                {...navProps}
+              />
+            )}
+          />
+          <Route
+            render={navProps => (
+              <NoteForm
+                {...formProps}
+                {...navProps}
+              />
+            )}
+          />
+        </Switch>
+
+
       </div>
     )
   }

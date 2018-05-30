@@ -1,11 +1,12 @@
 import React from 'react'
 import { StyleSheet, css } from 'aphrodite'
+import {Link} from 'react-router-dom'
 
 import quill from './quill.svg'
 import newIcon from './new.png'
 import newHover from './new-hover.png'
 
-const Sidebar = ({ resetCurrentNote, signOut }) => {
+const Sidebar = ({ signOut }) => {
   return (
     <nav className={css(styles.sidebar)}>
       <div
@@ -17,14 +18,7 @@ const Sidebar = ({ resetCurrentNote, signOut }) => {
           className={css(styles.logoImg)}
         />
       </div>
-      <a
-        href="/notes"
-        className={css(styles.newNote)}
-        onClick={(ev) => {
-          ev.preventDefault()
-          resetCurrentNote()
-        }}
-      >
+      <Link to="/notes" className={css(styles.newNote)}>
         <img
           src={newHover}
           alt="New note"
@@ -35,7 +29,7 @@ const Sidebar = ({ resetCurrentNote, signOut }) => {
           alt="New note"
           className={css(styles.newNoteImg, styles.newNoteImgHover)}
         />
-      </a>
+      </Link>
       <div
         className={css(styles.signOut)}
       >
