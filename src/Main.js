@@ -28,6 +28,7 @@ class Main extends Component {
       id: null,
       title: '',
       body: '',
+      updatedAt: new Date(),
     }
   }
 
@@ -54,6 +55,10 @@ class Main extends Component {
         }
       }
     )
+
+    note.updatedAt = new Date()
+
+    console.log(note.updatedAt)
   }
 
   removeNote = (currentNote) => {
