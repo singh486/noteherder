@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
 
@@ -10,7 +11,6 @@ class Main extends Component {
   constructor() {
     super()
     this.state = {
-      currentNote: this.blankNote(),
       notes: [],
     }
   }
@@ -31,14 +31,6 @@ class Main extends Component {
     }
   }
 
-  setCurrentNote = (note) => {
-    this.setState({ currentNote: note })
-  }
-
-  resetCurrentNote = () => {
-    this.setCurrentNote(this.blankNote())
-  }
-
   saveNote = (note) => {
     let shouldRedirect = false
     const notes = [...this.state.notes]
@@ -56,31 +48,29 @@ class Main extends Component {
 
     this.setState(
       { notes },
-      ()=> {
-        if(shouldRedirect){
+      () => {
+        if (shouldRedirect) {
           this.props.history.push(`/notes/${note.id}`)
         }
       }
     )
-
   }
 
-  removeCurrentNote = () => {
+  removeNote = (currentNote) => {
     const notes = [...this.state.notes]
-    const i = notes.findIndex(note => note.id === this.state.currentNote.id)
+    const i = notes.findIndex(note => note.id === currentNote.id)
 
     if (i > -1) {
       notes.splice(i, 1)
       this.setState({ notes })
+      this.props.history.push('/notes')
     }
-
-    this.resetCurrentNote()
   }
 
   render() {
     const formProps = {
       saveNote: this.saveNote,
-      removeCurrentNote: this.removeCurrentNote,
+      removeNote: this.removeNote,
       notes: this.state.notes,
     }
 
@@ -89,9 +79,7 @@ class Main extends Component {
         className="Main"
         style={style}
       >
-        <Sidebar
-          signOut={this.props.signOut}
-        />
+        <Sidebar signOut={this.props.signOut} />
         <NoteList notes={this.state.notes} />
         <Switch>
           <Route
