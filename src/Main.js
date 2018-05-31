@@ -82,7 +82,7 @@ class Main extends Component {
           }
       }
     }    
-    console.log(this.state.notes)
+    //console.log(this.state.notes)
 
     const formProps = {
       saveNote: this.saveNote,
