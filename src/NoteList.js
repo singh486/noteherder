@@ -5,6 +5,7 @@ import './NoteList.css'
 import Note from './Note'
 
 const NoteList = ({ notes }) => {
+  //Sort notes
 
   return (
     <div className="NoteList">

@@ -21,6 +21,7 @@ class Main extends Component {
       state: 'notes',
       asArray: true,
     })
+
   }
 
   blankNote = () => {
@@ -28,7 +29,7 @@ class Main extends Component {
       id: null,
       title: '',
       body: '',
-      updatedAt: new Date(),
+      updatedAt: new Date().toString(),
     }
   }
 
@@ -39,10 +40,12 @@ class Main extends Component {
     if (note.id) {
       // existing note
       const i = notes.findIndex(currentNote => currentNote.id === note.id)
+      note.updatedAt = new Date().toString()
       notes[i] = note
     } else {
       // new note
       note.id = Date.now()
+      note.updatedAt = new Date().toString()
       notes.push(note)
       shouldRedirect = true
     }
@@ -56,9 +59,6 @@ class Main extends Component {
       }
     )
 
-    note.updatedAt = new Date()
-
-    console.log(note.updatedAt)
   }
 
   removeNote = (currentNote) => {
@@ -73,6 +73,17 @@ class Main extends Component {
   }
 
   render() {
+    for(var i=0; i<this.state.notes.length; i++){
+      for(var j=0; j<this.state.notes.length - 1; j++){
+          if(this.state.notes[j].updatedAt < this.state.notes[j+1].updatedAt){
+              var temp = this.state.notes[j]
+              this.state.notes[j] = this.state.notes[j+1]
+              this.state.notes[j+1] = temp
+          }
+      }
+    }    
+    console.log(this.state.notes)
+
     const formProps = {
       saveNote: this.saveNote,
       removeNote: this.removeNote,

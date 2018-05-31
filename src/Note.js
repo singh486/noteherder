@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 
 const Note = ({ note }) => {
+  
   return (
     <NavLink to={`/notes/${note.id}`}>
       <li className="Note">
