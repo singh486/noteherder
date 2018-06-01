@@ -50,6 +50,11 @@ class Main extends Component {
       shouldRedirect = true
     }
 
+
+    // this.state.notes.sort((a, b) =>{
+    //   return b.updatedAt - a.updatedAt
+    // })
+
     this.setState(
       { notes },
       () => {

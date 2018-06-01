@@ -18,7 +18,7 @@ const SignIn = () => {
       </header>
       <main>
         <h3>Hey, Nerd! You Like Notes?</h3>
-        <p>You never know when you'll need to write crap down. In fact, you should probably be taking notes right now.</p>
+        <p>Try using this site to keep track of all of your notes!</p>
         <button
           className="github"
           onClick={() => authenticate(githubProvider)}>
